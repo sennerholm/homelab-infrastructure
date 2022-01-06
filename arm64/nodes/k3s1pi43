@@ -1,0 +1,53 @@
+#cloud-config
+
+hostname: k3s1pi43
+
+chpasswd:
+  expire: false
+  list:
+  - ubuntu:$UBUNTU_PASSWORD
+
+
+disk_setup:
+  /dev/sda:
+    table_type: 'mbr'
+    layout:
+      - 10
+      - 90
+    overwrite: True
+fs_setup:
+  - label: rancher
+    filesystem: 'ext4'
+    device: '/dev/sda1'
+  - label: longhorn
+    filesystem: 'ext4'
+    device: '/dev/sda2'
+
+mounts:
+ - [ LABEL=rancher, /var/lib/rancher, "auto", "defaults,nofail", "0", "2" ]
+ - [ LABEL=longhorn, /var/lib/longhorn, "auto", "defaults,nofail", "0", "2" ]
+
+# Enable password authentication with the SSH daemon
+ssh_pwauth: false
+
+ssh_import_id:
+- gh:sennerholm
+
+ssh_authorized_keys:
+  - sk-ssh-ed25519@openssh.com AAAAGnNrLXNzaC1lZDI1NTE5QG9wZW5zc2guY29tAAAAIKXEyt7JlLVp2R3syqmDRap7D0xEnDHv62I163ELodALAAAABHNzaDo= mikan@MacPro13.home.sennerholm.net
+
+## Update apt database and upgrade packages on first boot
+package_update: true
+package_upgrade: true
+
+ntp:
+  enabled: true
+  servers:
+    - ntp1.sp.se
+
+packages:
+- curl
+- wget
+- htop
+- linux-modules-extra-raspi
+- emacs-nox

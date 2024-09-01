@@ -21,13 +21,13 @@ ethernets:
   eth0:
     dhcp4: true
     optional: true
-#wifis:
-#  wlan0:
-#    dhcp4: true
-#    optional: true
-#    access-points:
-#      myhomewifi:
-#        password: "S3kr1t"
+wifis:
+  wlan0:
+    dhcp4: true
+    optional: true
+    access-points:
+      sennerholm:
+        password: "Heml1sen"
 #      myworkwifi:
 #        password: "correct battery horse staple"
 #      workssid:

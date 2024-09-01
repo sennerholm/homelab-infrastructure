@@ -25,14 +25,14 @@ This can be streamlined with the following script: `bootstrap-k3s.sh`:
 ```
 ## Manual setup of first master
 ```shell
-curl -sfL https://get.k3s.io | sh -s - server --cluster-init --tls-san 192.168.86.210 --tls-san k3s1pi4.home.sennerholm.net
-ip addr add 192.168.86.210/24 dev eth0
-cat /var/lib/rancher/k3s/server/node-token
+sudo ip addr add 192.168.86.210/24 dev eth0
+curl -sfL https://get.k3s.io | sh -s - server --cluster-init --tls-san 192.168.86.210 --tls-san k3s1.home.sennerholm.net --disable traefik
+sudo cat /var/lib/rancher/k3s/server/node-token
 ```
 
 On other masters:
 ```shell
-curl -sfL https://get.k3s.io | sh -s - server --token ${TOKEN_FROM_CAT_ABOVE} --server https://192.168.86.210:6443
+curl -sfL https://get.k3s.io | sh -s - server --token ${TOKEN_FROM_CAT_ABOVE} --server https://192.168.86.210:6443 --disable traefik
 ```
 ## boot into newly-provisioned ubuntu arm64 node with k3os
 (not yet)
